@@ -28,6 +28,7 @@ public:
     virtual ~HomebrewWindow();
 
     void draw(CVideo *pVideo);
+	void update(GuiController * c);
 
 private:
     void OnOpenEffectFinish(GuiElement *element);
@@ -68,9 +69,15 @@ private:
     GuiTrigger wpadTouchTrigger;
     GuiTrigger buttonLTrigger;
     GuiTrigger buttonRTrigger;
+	GuiTrigger buttonATrigger;
+	GuiTrigger buttonDPadUpTrigger;
+	GuiTrigger buttonDPadDownTrigger;
+	GuiTrigger buttonPlusTrigger;
     int listOffset;
     int currentLeftPosition;
     int targetLeftPosition;
+	
+	unsigned int currentSelection = 1;
 
     TcpReceiver tcpReceiver;
 };

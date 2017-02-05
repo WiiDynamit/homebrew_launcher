@@ -44,6 +44,8 @@ HomebrewLaunchWindow::HomebrewLaunchWindow(const std::string & launchPath, GuiIm
     , backBtn(backImg.getWidth(), backImg.getHeight())
     , touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH)
     , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
+	, buttonATrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_A, true)
+	, buttonBTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_B, true)
     , homebrewLaunchPath(launchPath)
 {
     width = backgroundImg.getWidth();
@@ -182,4 +184,18 @@ void HomebrewLaunchWindow::OnLoadButtonClick(GuiButton *button, const GuiControl
     loader->effectFinished.connect(this, &HomebrewLaunchWindow::OnOpenEffectFinish);
     loader->asyncLoadFinished.connect(this, &HomebrewLaunchWindow::OnFileLoadFinish);
     append(loader);
+}
+
+void HomebrewLaunchWindow::update(GuiController * c)
+{
+	GuiFrame::update(c);
+	
+	if(buttonATrigger.clicked(c))
+	{
+		OnLoadButtonClick(&loadBtn, c, NULL);
+	}
+	if(buttonBTrigger.clicked(c))
+	{
+		OnBackButtonClick(&backBtn, c, NULL);
+	}
 }

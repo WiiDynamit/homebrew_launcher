@@ -43,6 +43,10 @@ HomebrewWindow::HomebrewWindow(int w, int h)
     , wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A)
     , buttonLTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_L | GuiTrigger::BUTTON_LEFT, true)
     , buttonRTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_R | GuiTrigger::BUTTON_RIGHT, true)
+	, buttonATrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_A, true)
+	, buttonDPadUpTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_UP, true)
+	, buttonDPadDownTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_DOWN, true)
+	, buttonPlusTrigger(GuiTrigger::CHANNEL_ALL, GuiTrigger::BUTTON_PLUS, true)
     , tcpReceiver(DEFAULT_WIILOAD_PORT)
 {
     tcpReceiver.serverReceiveStart.connect(this, &HomebrewWindow::OnTcpReceiveStart);
@@ -330,5 +334,25 @@ void HomebrewWindow::OnTcpReceiveFinish(GuiElement *element, u32 ip, int result)
         log_printf("Launching homebrew, loaded to address %08X size %08X\n", ELF_DATA_ADDR, ELF_DATA_SIZE);
         Application::instance()->quit(EXIT_SUCCESS);
     }
+}
+
+void HomebrewWindow::update(GuiController * c)
+{
+	GuiFrame::update(c);
+	
+	if(buttonATrigger.clicked(c))
+	{
+		OnHomebrewButtonClick(homebrewButtons[currentSelection - 1].button, c, NULL); // It doesn't actually do anything with the trigger, so just pass any trigger.
+	}
+	
+	if(buttonDPadUpTrigger.clicked(c))
+	{
+		if(currentSelection > 1) currentSelection--;
+	}
+	
+	if(buttonDPadDownTrigger.clicked(c))
+	{
+		if(currentSelection < homebrewButtons.size()) currentSelection++;
+	}
 }
 

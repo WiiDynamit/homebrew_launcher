@@ -27,6 +27,7 @@ public:
     virtual ~HomebrewLaunchWindow();
 
     sigslot::signal1<GuiElement *> backButtonClicked;
+	void update(GuiController * c);
 private:
     void OnBackButtonClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger)
     {
@@ -63,6 +64,8 @@ private:
 
     GuiTrigger touchTrigger;
     GuiTrigger wpadTouchTrigger;
+	GuiTrigger buttonATrigger;
+	GuiTrigger buttonBTrigger;
 
     const std::string homebrewLaunchPath;
 };
